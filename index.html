@@ -3,247 +3,302 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Anonymity: no author/generator metadata, no external resources, not indexed during review. -->
+  <!-- Anonymity: no author metadata, not indexed during review. External requests: Google Fonts + video CDN only. -->
   <meta name="robots" content="noindex, nofollow">
   <title>PIVOT</title>
   <!-- Inline data-URI favicon so the browser does not request /favicon.ico externally. -->
   <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ===================== Header ===================== -->
-  <header class="hero">
-    <div class="container">
+  <!-- ===================== Nav ===================== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#top">PIVOT</a>
+      <div class="nav-links">
+        <a href="#approach"><span class="nav-i">01</span>Approach</a>
+        <a href="#tasks"><span class="nav-i">02</span>Tasks</a>
+        <a href="#generalization"><span class="nav-i">03</span>Generalization</a>
+        <a href="#robustness"><span class="nav-i">04</span>Robustness</a>
+        <a href="#results"><span class="nav-i">05</span>Results</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== Hero (dark) ===================== -->
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Project Page</p>
       <h1 class="title">PIVOT</h1>
-      <p class="subtitle">Policy Improvement via Trust-Region Optimization from Deployment Experience</p>
+      <p class="subtitle"><b class="acro">P</b>olicy <b class="acro">I</b>mprovement <b class="acro">v</b>ia <b class="acro">T</b>rust-Region <b class="acro">O</b>ptimization from Deployment Experience</p>
       <p class="authors">Anonymous Author(s)</p>
       <p class="venue">Under double-blind review</p>
     </div>
   </header>
 
-  <!-- ===================== Nav ===================== -->
-  <nav class="nav">
-    <div class="container nav-inner">
-      <a href="#approach">Approach</a>
-      <a href="#tasks">Tasks</a>
-      <a href="#generalization">Generalization</a>
-      <a href="#robustness">Robustness</a>
-      <a href="#results">Results</a>
-    </div>
-  </nav>
+  <main>
 
-  <main class="container">
-
-    <!-- ===================== Main promo video ===================== -->
-    <section class="section" id="promo">
-      <figure class="media">
+    <!-- Main promo video: straddles the dark→light seam -->
+    <div class="seam wrap-media">
+      <figure class="media hero-media">
         <video src="https://cdn-pivot.linshey.com/promo_main.mp4#t=0.1" controls muted playsinline preload="metadata"></video>
         <figcaption>
-          <strong>PIVOT</strong> post-trains an embodied foundation model from its own real-world
+          <span class="cap-text"><strong>PIVOT</strong> post-trains an embodied foundation model from its own real-world
           deployment experience into consistent, monotonic gains across precise, contact-rich
-          bimanual manipulation tasks.
+          bimanual manipulation tasks.</span>
         </figcaption>
       </figure>
-    </section>
+    </div>
 
-    <!-- ===================== Approach / epigraph ===================== -->
+    <!-- ===================== 01 · Approach / epigraph ===================== -->
     <section class="section epigraph" id="approach">
-      <blockquote class="quote">
-        <p>&ldquo;For the things we have to learn before we can do them, we learn by doing them.&rdquo;</p>
-        <cite>&mdash; Aristotle, <span>Nicomachean Ethics</span></cite>
-      </blockquote>
+      <div class="wrap-content">
+        <header class="sec-head">
+          <p class="sec-eyebrow"><span class="sec-index">01</span><span class="sec-label">Approach</span></p>
+        </header>
 
-      <blockquote class="quote">
-        <p>&ldquo;Vigorous action deepens knowledge; deep knowledge perfects action.&rdquo;</p>
-        <cite>&mdash; Zhang Shi, <span>Commentary on the Analects</span></cite>
-      </blockquote>
+        <div class="quotes">
+          <blockquote class="quote">
+            <p>&ldquo;For the things we have to learn before we can do them, we learn by doing them.&rdquo;</p>
+            <cite>&mdash; Aristotle, <span>Nicomachean Ethics</span></cite>
+          </blockquote>
 
-      <p class="lede">
-        We bring this idea to <strong>embodied foundation models</strong>: a robot that
-        <strong>learns by doing</strong>. Deployed in the real world, our policy improves itself
-        round after round from its own deployment experience &mdash; demonstrations, human
-        corrections, and autonomous rollouts alike &mdash; turning each into steady, monotonic gains.
-        We call this system <strong>PIVOT</strong>.
-      </p>
+          <blockquote class="quote">
+            <p>&ldquo;Vigorous action deepens knowledge; deep knowledge perfects action.&rdquo;</p>
+            <cite>&mdash; Zhang Shi, <span>Commentary on the Analects</span></cite>
+          </blockquote>
+        </div>
+
+        <p class="lede">
+          We bring this idea to <strong>embodied foundation models</strong>: a robot that
+          <strong>learns by doing</strong>. Deployed in the real world, our policy improves itself
+          round after round from its own deployment experience &mdash; demonstrations, human
+          corrections, and autonomous rollouts alike &mdash; turning each into steady, monotonic gains.
+          We call this system <strong>PIVOT</strong>.
+        </p>
+      </div>
     </section>
 
-    <!-- ===================== Task demos ===================== -->
+    <!-- ===================== 02 · Task demos ===================== -->
     <section class="section" id="tasks">
-      <h2>Task Demonstrations</h2>
-      <p>
-        After post-training, a single policy runs unattended over long horizons across
-        contact-rich bimanual tasks, each requiring fine-grained contact control and recovery from
-        small execution errors.
-      </p>
-
-      <!-- Laundry hook: prominent question + the full one-hour folding video -->
-      <div class="hook">
-        <p class="hook-q">How many T-shirts can you fold in an hour?</p>
-        <p class="hook-sub">Ours folds them one after another &mdash; for a full hour, nonstop.</p>
-        <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/fs.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
-          <figcaption>
-            <strong>Laundry</strong> &mdash; T-shirt folding from randomized crumpled poses, running
-            continuously for one hour without intervention.
-          </figcaption>
-        </figure>
+      <div class="wrap-content">
+        <header class="sec-head">
+          <p class="sec-eyebrow"><span class="sec-index">02</span><span class="sec-label">Tasks</span></p>
+          <h2>Task Demonstrations</h2>
+        </header>
+        <p class="prose">
+          After post-training, a single policy runs unattended over long horizons across
+          contact-rich bimanual tasks, each requiring fine-grained contact control and recovery from
+          small execution errors.
+        </p>
       </div>
 
-      <!-- Paper Box: enlarged to full width, matching the Laundry hook -->
-      <figure class="media">
-        <video src="https://cdn-pivot.linshey.com/ur.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
-        <figcaption>
-          <strong>Paper Box</strong> &mdash; long-horizon multi-stage box assembly from a flat
-          cutout, running autonomously over many consecutive runs (shown at 20&times; speed).
-        </figcaption>
-      </figure>
-
-      <div class="grid grid-2">
+      <div class="wrap-media">
+        <!-- Laundry hook: prominent question + the full one-hour folding video -->
+        <div class="hook">
+          <p class="hook-q">How many T-shirts can you fold in an hour?</p>
+          <p class="hook-sub">Ours folds them one after another &mdash; for a full hour, nonstop.</p>
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/fs.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Laundry</span>
+              <span class="cap-text">T-shirt folding from randomized crumpled poses, running
+              continuously for one hour without intervention.</span>
+            </figcaption>
+          </figure>
+        </div>
 
         <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/sa.mp4#t=96" muted loop playsinline preload="metadata"></video>
+          <video src="https://cdn-pivot.linshey.com/ur.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
           <figcaption>
-            <strong>Sachet</strong> &mdash; threading sachets with high dexterity, succeeding across
-            four different sachet pairs.
+            <span class="cap-label">Paper Box</span>
+            <span class="cap-text">Long-horizon multi-stage box assembly from a flat
+            cutout, running autonomously over many consecutive runs (shown at 20&times; speed).</span>
           </figcaption>
         </figure>
 
-        <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/zt.mp4#t=178" muted loop playsinline preload="metadata"></video>
-          <figcaption>
-            <strong>Zip-Tie</strong> &mdash; picking and threading a flexible zip tie at
-            millimeter-level precision.
-          </figcaption>
-        </figure>
+        <div class="grid grid-2">
 
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/sa.mp4#t=96" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Sachet</span>
+              <span class="cap-text">Threading sachets with high dexterity, succeeding across
+              four different sachet pairs.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/zt.mp4#t=178" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Zip-Tie</span>
+              <span class="cap-text">Picking and threading a flexible zip tie at
+              millimeter-level precision.</span>
+            </figcaption>
+          </figure>
+
+        </div>
       </div>
     </section>
 
-    <!-- ===================== Generalization ===================== -->
+    <!-- ===================== 03 · Generalization ===================== -->
     <section class="section" id="generalization">
-      <h2>Generalization</h2>
-      <p>
-        We probe visual generalization on objects with appearances never seen during training: the
-        Laundry policy folds unseen T-shirts, and the Zip-Tie policy threads colored cable ties.
-        Both indicate that the learned contact-rich skills transfer beyond the training distribution.
-      </p>
+      <div class="wrap-content">
+        <header class="sec-head">
+          <p class="sec-eyebrow"><span class="sec-index">03</span><span class="sec-label">Generalization</span></p>
+          <h2>Generalization</h2>
+        </header>
+        <p class="prose">
+          We probe visual generalization on objects with appearances never seen during training: the
+          Laundry policy folds unseen T-shirts, and the Zip-Tie policy threads colored cable ties.
+          Both indicate that the learned contact-rich skills transfer beyond the training distribution.
+        </p>
+      </div>
 
-      <div class="grid grid-1">
+      <div class="wrap-media">
+        <div class="grid grid-1">
 
-        <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/zt-gen.mp4#t=40" muted loop playsinline preload="metadata"></video>
-          <figcaption>
-            <strong>Colorful Zip Ties</strong> &mdash; threading cable ties of unseen colors.
-          </figcaption>
-        </figure>
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/zt-gen.mp4#t=40" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Colorful Zip Ties</span>
+              <span class="cap-text">Threading cable ties of unseen colors.</span>
+            </figcaption>
+          </figure>
 
-        <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/fs-gen.mp4#t=58" muted loop playsinline preload="metadata"></video>
-          <figcaption>
-            <strong>Unseen T-Shirts</strong> &mdash; folding T-shirts of unseen colors and patterns.
-          </figcaption>
-        </figure>
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/fs-gen.mp4#t=58" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Unseen T-Shirts</span>
+              <span class="cap-text">Folding T-shirts of unseen colors and patterns.</span>
+            </figcaption>
+          </figure>
 
+        </div>
       </div>
     </section>
 
-    <!-- ===================== Robustness ===================== -->
+    <!-- ===================== 04 · Robustness ===================== -->
     <section class="section" id="robustness">
-      <h2>Robustness</h2>
-      <p>
-        We stress-test our post-trained policies against unexpected mishaps. The Paper Box policy
-        makes robust corrections to small accidents mid-assembly, while the Laundry policy resists
-        physical disturbances from a human, recognizes and re-does a poor fold, and recovers from
-        small execution slips mid-fold.
-      </p>
-
-      <div class="grid grid-1">
-
-        <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/ur-rob.mp4#t=34" muted loop playsinline preload="metadata"></video>
-          <figcaption>
-            <strong>Paper Box</strong> &mdash; the policy makes robust corrections to small
-            accidents that occur during box assembly, keeping the fold on track.
-          </figcaption>
-        </figure>
-
-        <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/disturb.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
-          <figcaption>
-            <strong>Human Disturbance</strong> &mdash; folding continues while a person physically
-            perturbs the cloth and the arms mid-task.
-          </figcaption>
-        </figure>
-
+      <div class="wrap-content">
+        <header class="sec-head">
+          <p class="sec-eyebrow"><span class="sec-index">04</span><span class="sec-label">Robustness</span></p>
+          <h2>Robustness</h2>
+        </header>
+        <p class="prose">
+          We stress-test our post-trained policies against unexpected mishaps. The Paper Box policy
+          makes robust corrections to small accidents mid-assembly, while the Laundry policy resists
+          physical disturbances from a human, recognizes and re-does a poor fold, and recovers from
+          small execution slips mid-fold.
+        </p>
       </div>
 
-      <div class="grid grid-2">
+      <div class="wrap-media">
+        <div class="grid grid-1">
 
-        <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/self-corr.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
-          <figcaption>
-            <strong>Self-Correction</strong> &mdash; when a fold comes out poorly, the policy
-            notices and re-folds until the result is clean.
-          </figcaption>
-        </figure>
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/ur-rob.mp4#t=34" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Paper Box</span>
+              <span class="cap-text">The policy makes robust corrections to small
+              accidents that occur during box assembly, keeping the fold on track.</span>
+            </figcaption>
+          </figure>
 
-        <figure class="media">
-          <video src="https://cdn-pivot.linshey.com/err-recov.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
-          <figcaption>
-            <strong>Error Recovery</strong> &mdash; after a small execution slip mid-fold, the
-            policy recovers and retries.
-          </figcaption>
-        </figure>
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/disturb.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Human Disturbance</span>
+              <span class="cap-text">Folding continues while a person physically
+              perturbs the cloth and the arms mid-task.</span>
+            </figcaption>
+          </figure>
 
+        </div>
+
+        <div class="grid grid-2">
+
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/self-corr.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Self-Correction</span>
+              <span class="cap-text">When a fold comes out poorly, the policy
+              notices and re-folds until the result is clean.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="media">
+            <video src="https://cdn-pivot.linshey.com/err-recov.mp4#t=0.1" muted loop playsinline preload="metadata"></video>
+            <figcaption>
+              <span class="cap-label">Error Recovery</span>
+              <span class="cap-text">After a small execution slip mid-fold, the
+              policy recovers and retries.</span>
+            </figcaption>
+          </figure>
+
+        </div>
       </div>
     </section>
 
-    <!-- ===================== Experiments / Results ===================== -->
+    <!-- ===================== 05 · Experiments / Results ===================== -->
     <section class="section" id="results">
-      <h2>Experiments</h2>
+      <div class="wrap-content">
+        <header class="sec-head">
+          <p class="sec-eyebrow"><span class="sec-index">05</span><span class="sec-label">Results</span></p>
+          <h2>Experiments</h2>
+        </header>
+      </div>
 
-      <figure class="media">
-        <div class="figrow" data-fig="fig1"></div>
-        <figcaption>
-          <strong>Iterative improvement across tasks.</strong> Success rate (or throughput) at each
-          post-training iteration. PIVOT yields stable, monotonic gains over successive iterations on
-          all evaluated tasks.
-        </figcaption>
-      </figure>
+      <div class="wrap-media">
+        <figure class="media chart">
+          <div class="figrow" data-fig="fig1"></div>
+          <figcaption>
+            <span class="cap-label">Fig. 1</span>
+            <span class="cap-text"><strong>Iterative improvement across tasks.</strong> Success rate (or throughput) at each
+            post-training iteration. PIVOT yields stable, monotonic gains over successive iterations on
+            all evaluated tasks.</span>
+          </figcaption>
+        </figure>
 
-      <figure class="media">
-        <div class="figrow" data-fig="fig2"></div>
-        <figcaption>
-          <strong>Policy-extraction comparison and ablations.</strong> Laundry throughput and
-          zip-tie success rate across post-training iterations, comparing TRFO against alternative
-          policy-extraction methods and ablation variants under the same data budget.
-        </figcaption>
-      </figure>
+        <figure class="media chart">
+          <div class="figrow" data-fig="fig2"></div>
+          <figcaption>
+            <span class="cap-label">Fig. 2</span>
+            <span class="cap-text"><strong>Policy-extraction comparison and ablations.</strong> Laundry throughput and
+            zip-tie success rate across post-training iterations, comparing TRFO against alternative
+            policy-extraction methods and ablation variants under the same data budget.</span>
+          </figcaption>
+        </figure>
 
-      <figure class="media">
-        <div class="figrow" data-fig="fig3"></div>
-        <figcaption>
-          <strong>Unified multi-task post-training.</strong> A single unified policy post-trained
-          with TRFO performs on par with per-task specialists across tasks, suggesting the objective
-          scales to diverse skill repertoires without per-task modification.
-        </figcaption>
-      </figure>
-
+        <figure class="media chart">
+          <div class="figrow" data-fig="fig3"></div>
+          <figcaption>
+            <span class="cap-label">Fig. 3</span>
+            <span class="cap-text"><strong>Unified multi-task post-training.</strong> A single unified policy post-trained
+            with TRFO performs on par with per-task specialists across tasks, suggesting the objective
+            scales to diverse skill repertoires without per-task modification.</span>
+          </figcaption>
+        </figure>
+      </div>
     </section>
 
   </main>
 
-  <!-- ===================== Footer ===================== -->
+  <!-- ===================== Footer (dark) ===================== -->
   <footer class="footer">
-    <div class="container">
-      <p>Anonymous project page for double-blind review. Please do not distribute.</p>
+    <div class="footer-inner">
+      <p class="footer-brand">PIVOT</p>
+      <p class="footer-note">Anonymous project page for double-blind review. Please do not distribute.</p>
     </div>
   </footer>
 
-  <!-- Self-contained inline charts (no external resources). -->
+  <!-- Self-contained inline charts. -->
   <script src="js/charts.js" defer></script>
-  <!-- Custom lightweight video controls (play/pause, scrub, mute, fullscreen). -->
+  <!-- Custom lightweight video controls (play/pause, scrub, fullscreen). -->
   <script src="js/video.js" defer></script>
 
 </body>
