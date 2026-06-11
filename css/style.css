@@ -703,6 +703,14 @@ body {
 .figrow.run .chart-svg .err,
 .figrow.run .chart-svg .vlabel { opacity: 1; }
 
+/* End-of-document mark, echoing the hero eyebrow square */
+.endmark {
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  margin: clamp(72px, 9vw, 112px) auto 0;
+}
+
 /* ---------------- Footer (dark bookend) ---------------- */
 .footer {
   background-color: var(--dark-0);
