@@ -32,9 +32,11 @@
     bg.appendChild(layers[1]);
     document.body.insertBefore(bg, document.body.firstChild);
 
+    var POSITIONS = ["left 8% center", "right 8% center"]; // alternate sides
     var idx = 0;
     var front = 0;
     layers[0].style.backgroundImage = "url(" + SHEETS[0] + ")";
+    layers[0].style.backgroundPosition = POSITIONS[0];
     layers[0].classList.add("is-active");
 
     if (!reduced) {
@@ -44,6 +46,7 @@
         var inc = layers[1 - front];
         var out = layers[front];
         inc.style.backgroundImage = "url(" + SHEETS[idx] + ")";
+        inc.style.backgroundPosition = POSITIONS[idx % 2];
         inc.classList.remove("is-leaving");
         inc.classList.add("is-entering");
         void inc.offsetWidth; /* flush, so the entering position applies before transitioning */

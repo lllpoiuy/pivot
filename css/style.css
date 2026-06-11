@@ -33,9 +33,6 @@
   --w-prose: 680px;
   --w-content: 1000px;
   --w-media: 1200px;
-
-  /* How far the promo video's top edge reaches up into the hero */
-  --seam-overlap: clamp(80px, 16vh, 170px);
 }
 
 * { box-sizing: border-box; }
@@ -182,14 +179,21 @@ body {
   background-image: radial-gradient(circle, rgba(21, 23, 26, 0.11) 1px, transparent 1.4px);
   background-size: 26px 26px;
   border: 1px dashed var(--accent);
-  padding: clamp(28px, 4vh, 44px) 0 var(--seam-overlap);
+  padding: clamp(28px, 4vh, 44px) 0 clamp(28px, 3.5vw, 44px);
   text-align: center;
 }
 
 .hero-inner {
   max-width: var(--w-media);
   margin: 0 auto;
-  padding: 0 24px 18px;
+  padding: 0 24px 6px;
+}
+
+/* The promo sits fully inside the hero plate */
+.hero .hero-media {
+  max-width: 1088px;
+  margin: 16px auto 0;
+  padding: 0 24px;
 }
 
 .title {
@@ -267,7 +271,7 @@ body {
 
 /* Staggered hero reveal */
 .hero-inner > *,
-.seam .hero-media {
+.hero .hero-media {
   opacity: 0;
   transform: translateY(14px);
   animation: rise 0.7s cubic-bezier(0.22, 0.7, 0.25, 1) forwards;
@@ -276,17 +280,10 @@ body {
 .title { animation-delay: 0.05s; }
 .subtitle { animation-delay: 0.15s; }
 .plate { animation-delay: 0.25s; }
-.seam .hero-media { animation-delay: 0.35s; }
+.hero .hero-media { animation-delay: 0.35s; }
 
 @keyframes rise {
   to { opacity: 1; transform: none; }
-}
-
-/* ---------------- Promo band (straddles the hero seam) ---------------- */
-.seam {
-  position: relative;
-  max-width: 1088px;
-  margin-top: calc(-1 * var(--seam-overlap));
 }
 
 .hero-media video {
@@ -318,6 +315,9 @@ body {
   padding: 26px 36px 32px;
 }
 
+/* In Results the text sheet runs as wide as the chart band */
+#results .wrap-content { max-width: var(--w-media); }
+
 /* The drafting-sheet ghost: one sketch at a time, fixed to the
    viewport behind ALL content (z-index -1 — videos, chart panels,
    hero and footer always cover it) and enlarged to fill the bounds.
@@ -335,8 +335,8 @@ body {
   position: absolute;
   inset: -7%;
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-position: left 8% center; /* per-slide: js alternates left / right */
+  background-size: clamp(320px, 52vw, 860px) auto; /* whole drawing stays visible */
   mix-blend-mode: multiply;
   opacity: 0;
   transform: translate(5%, 4%);
@@ -422,9 +422,10 @@ body {
 }
 
 .quote p {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-style: italic;
-  font-size: clamp(21px, 2.4vw, 26px);
+  font-weight: 500;
+  font-size: clamp(20px, 2.2vw, 24px);
   line-height: 1.45;
   color: var(--ink);
   margin: 0 0 20px;
@@ -450,10 +451,10 @@ body {
 }
 
 .lede {
-  font-family: var(--serif);
-  font-size: clamp(19px, 2.2vw, 22px);
-  line-height: 1.6;
-  max-width: 720px;
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.75;
+  max-width: var(--w-prose);
   margin: 0;
 }
 
@@ -932,7 +933,7 @@ body {
   .sheet-bg-layer { transition: none; }
 
   .hero-inner > *,
-  .seam .hero-media {
+  .hero .hero-media {
     animation: none;
     opacity: 1;
     transform: none;
