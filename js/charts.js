@@ -9,20 +9,20 @@
 
   var NS = 'http://www.w3.org/2000/svg';
 
-  // --- shared palette (identical hues across the three figures) -------------
+  // --- shared palette (harmonized with the "Instrument" design system) ------
   var C = {
-    blue:   '#2e6f95',  // Laundry
-    orange: '#b5651d',  // Zip-tie
-    green:  '#4f8a4a',  // Paper box
-    wine:   '#8a3b5c',  // Sachet / hero
-    slate:  '#6c7a89',  // neutral (base / single-task)
-    ablDeep:  '#3f4751', // no-clip (collapsed)
-    ablLight: '#a9b1bb', // A>0 (muted)
-    ablText:  '#7d8893', // readable label for the light ablation
-    ink:    '#222222',
-    grid:   '#888888',
-    spine:  '#444444',
-    na:     '#888888'
+    blue:   '#3d6b8e',  // Laundry — steel blue
+    orange: '#c9851e',  // Zip-tie — ochre (distinct from the accent)
+    green:  '#57754c',  // Paper box — olive
+    wine:   '#c2410c',  // Sachet / hero — THE accent marks ours
+    slate:  '#6e7680',  // neutral (base / single-task)
+    ablDeep:  '#2e3338', // no-clip (collapsed)
+    ablLight: '#b5b0a6', // A>0 (muted, warm gray)
+    ablText:  '#8a857b', // readable label for the light ablation
+    ink:    '#15171a',
+    grid:   '#c9c4ba',
+    spine:  '#3a3d42',
+    na:     '#8a857b'
   };
 
   // --- stat helpers (match the python scripts) ------------------------------
@@ -167,9 +167,9 @@
   ], legend: {
     items: [
       { color: C.slate, alpha: 0.38, label: 'Single-task  (base)' },
-      { color: '#3f3f3f', alpha: 0.38, label: 'Unified  (base)' },
+      { color: '#15171a', alpha: 0.38, label: 'Unified  (base)' },
       { color: C.slate, alpha: 1.0, label: 'Single-task  (+ PIVOT)' },
-      { color: '#3f3f3f', alpha: 1.0, label: 'Unified  (+ PIVOT)', bold: true }
+      { color: '#15171a', alpha: 1.0, label: 'Unified  (+ PIVOT)', bold: true }
     ], note: 'Error bars: ±1 SEM.'
   } };
 
@@ -211,7 +211,7 @@
     svg.appendChild(el('line', { x1: ML, y1: base, x2: ML + pw, y2: base, stroke: C.spine, 'stroke-width': 0.7 }));
     // region separators
     (p.seps || []).forEach(function (sx) {
-      svg.appendChild(el('line', { x1: px(sx), y1: MT, x2: px(sx), y2: base, stroke: '#bbbbbb',
+      svg.appendChild(el('line', { x1: px(sx), y1: MT, x2: px(sx), y2: base, stroke: '#c9c4ba',
         'stroke-width': 0.6, 'stroke-dasharray': '1,2.5' }));
     });
     // title
