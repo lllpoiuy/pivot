@@ -38,6 +38,7 @@
     for (var i = 0; i < links.length; i++) {
       map[links[i].getAttribute("href").slice(1)] = links[i];
     }
+    var hero = document.querySelector(".hero");
     var current = null;
     var spy = new IntersectionObserver(function (entries) {
       for (var j = 0; j < entries.length; j++) {
@@ -51,6 +52,7 @@
       var sec = document.getElementById(id);
       if (sec) spy.observe(sec);
     }
+    if (hero) spy.observe(hero); /* entering the hero clears the highlight */
 
     // --- Scroll reveals ----------------------------------------------------
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
