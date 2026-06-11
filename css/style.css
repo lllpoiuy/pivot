@@ -49,8 +49,8 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 18px;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -75,8 +75,10 @@ body {
 .section .wrap-media { max-width: 1000px; }
 #results .wrap-media { max-width: var(--w-media); }
 
-/* Vertical rhythm between figures inside a media band */
-.wrap-media > * + * { margin-top: 56px; }
+/* Vertical rhythm between figures inside a media band — one beat (48px)
+   everywhere, whether figures are siblings or rows of a grid.
+   (:not(:first-child) outranks the `.media { margin: 0 }` reset.) */
+.wrap-media > :not(:first-child) { margin-top: 48px; }
 
 /* The mono "instrument" label voice, reused everywhere */
 .sec-eyebrow,
@@ -609,7 +611,7 @@ body {
 /* ---------------- Grid (task videos) ---------------- */
 .grid {
   display: grid;
-  gap: 32px;
+  gap: 48px 32px;
 }
 
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
@@ -799,7 +801,8 @@ body {
   .nav-links { gap: 18px; }
   .nav-i { display: none; }
 
-  .wrap-media > * + * { margin-top: 44px; }
+  .wrap-media > :not(:first-child) { margin-top: 40px; }
+  .grid { gap: 40px 32px; }
   .media.chart { padding: 16px 16px 14px; }
 
   /* Stack chart panels vertically on narrow screens */
