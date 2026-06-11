@@ -1,0 +1,508 @@
+/* ============================================================
+   PIVOT — anonymous project page
+   Self-contained: system fonts only, no external resources.
+   ============================================================ */
+
+:root {
+  --max-width: 900px;
+  --ink: #1a1a1a;
+  --muted: #5c5c5c;
+  --line: #e4e4e4;
+  --accent: #1f6feb;
+  --bg: #ffffff;
+  --bg-soft: #f7f7f8;
+  --serif: Georgia, "Times New Roman", Times, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 64px; /* offset for sticky nav */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------------- Header ---------------- */
+.hero {
+  text-align: center;
+  padding: 64px 0 40px;
+  border-bottom: 1px solid var(--line);
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: clamp(48px, 9vw, 84px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.subtitle {
+  font-family: var(--serif);
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 400;
+  color: var(--ink);
+  margin: 12px auto 24px;
+  max-width: 38ch;
+  line-height: 1.4;
+}
+
+.authors {
+  font-size: 18px;
+  font-style: italic;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+.venue {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+/* ---------------- Nav ---------------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 28px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  transition: color 0.15s ease;
+}
+
+.nav a:hover { color: var(--accent); }
+
+/* ---------------- Sections ---------------- */
+.section {
+  padding: 44px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section:last-of-type { border-bottom: none; }
+
+#promo { border-bottom: none; padding-top: 40px; }
+
+.section h2 {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+.section p {
+  margin: 0 auto 18px;
+  max-width: 70ch;
+  text-align: justify;
+}
+
+.keywords {
+  text-align: center !important;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ---------------- Approach / epigraph ---------------- */
+.epigraph {
+  text-align: center;
+  padding: 56px 0 48px;
+}
+
+.quote {
+  margin: 0 auto 26px;
+  max-width: 60ch;
+}
+
+.quote:last-of-type { margin-bottom: 30px; }
+
+.epigraph .quote p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(20px, 2.6vw, 25px);
+  line-height: 1.45;
+  color: var(--ink);
+  margin: 0 0 10px;
+  max-width: none;
+  text-align: center;
+}
+
+.quote cite {
+  display: block;
+  font-style: normal;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.quote cite span { font-style: italic; }
+
+.epigraph .lede {
+  max-width: 60ch;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.epigraph .keywords { margin-top: 18px; }
+
+/* ---------------- Task hook (highlighted laundry) ---------------- */
+.hook {
+  text-align: center;
+  margin: 8px 0 34px;
+}
+
+.hook .hook-q {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 auto 2px;
+  max-width: 40ch;
+  text-align: center;
+}
+
+.hook .hook-sub {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 0 auto 16px;
+  max-width: 50ch;
+  text-align: center;
+}
+
+.hook .media { margin-top: 0; }
+
+/* ---------------- Media + placeholders ---------------- */
+.media {
+  margin: 24px 0 0;
+}
+
+.media video,
+.media img,
+.media .placeholder {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.media video,
+.media img {
+  height: auto;
+  background: #000;
+}
+
+.placeholder {
+  aspect-ratio: var(--ratio, 16 / 9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+  background: var(--bg-soft);
+  border: 2px dashed #c8c8c8;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ---------------- Custom video player ---------------- */
+.player {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+  line-height: 0;
+}
+
+.player video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.vc {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 12px 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0));
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  line-height: normal;
+}
+
+/* Reveal on hover, while scrubbing, or whenever the video is paused. */
+.player:hover .vc,
+.player.is-scrubbing .vc,
+.player.is-paused .vc,
+.player:focus-within .vc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.vc-btn {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vc-btn:hover { background: rgba(255, 255, 255, 0.18); }
+.vc-btn svg { width: 100%; height: 100%; fill: currentColor; }
+
+.vc-track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+
+/* The visible rail is a thin bar centered in the taller hit area. */
+.vc-track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.vc-buffered,
+.vc-played {
+  position: absolute;
+  left: 0;
+  height: 4px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.vc-buffered { background: rgba(255, 255, 255, 0.35); width: 0; }
+.vc-played { background: var(--accent); width: 0; }
+
+.vc-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateY(-50%) scale(0);
+  transition: transform 0.12s ease;
+  pointer-events: none;
+}
+
+.vc-track:hover .vc-thumb,
+.player.is-scrubbing .vc-thumb { transform: translateY(-50%) scale(1); }
+
+.vc-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.vc-time {
+  flex: 0 0 auto;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .vc-time { font-size: 11px; }
+  .vc { gap: 7px; }
+}
+
+.media figcaption {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: center;
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------------- Grid (task videos) ---------------- */
+.grid {
+  display: grid;
+  gap: 28px;
+  margin-top: 8px;
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-1 { grid-template-columns: 1fr; }
+
+.grid .media { margin-top: 0; }
+
+@media (max-width: 720px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  body { font-size: 17px; }
+  .section p { text-align: left; }
+}
+
+/* ---------------- Result charts ---------------- */
+.figrow {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.chart-panel {
+  min-width: 0;          /* allow flex children to shrink below content size */
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--sans);
+}
+
+/* SVG text roles */
+.chart-svg .ptitle { font-size: 12px; font-weight: 700; fill: var(--ink); }
+.chart-svg .ylabel { font-size: 10px; fill: #333; }
+.chart-svg .tick   { font-size: 9px;  fill: #333; }
+.chart-svg .vlabel { font-size: 10px; }
+
+/* Legend block (fig2 / fig3) */
+.chart-legend {
+  flex: 0 0 auto;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 4px;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.leg-row { display: flex; align-items: center; gap: 7px; }
+
+.leg-swatch {
+  width: 15px;
+  height: 11px;
+  flex: 0 0 auto;
+  border: 1px solid;
+  border-radius: 1px;
+}
+
+.leg-label { color: #333; white-space: nowrap; }
+
+.leg-note {
+  margin-top: 4px;
+  font-size: 10.5px;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* --- Bar-growth animation (triggered by .run on .figrow) --- */
+.chart-svg .bar {
+  transform: scaleY(0);
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: transform 0.52s cubic-bezier(0.22, 0.7, 0.25, 1);
+}
+.chart-svg .err,
+.chart-svg .vlabel {
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+.figrow.run .chart-svg .bar { transform: scaleY(1); }
+.figrow.run .chart-svg .err,
+.figrow.run .chart-svg .vlabel { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-svg .bar { transform: none; transition: none; }
+  .chart-svg .err,
+  .chart-svg .vlabel { opacity: 1; transition: none; }
+}
+
+/* Stack panels vertically on narrow screens */
+@media (max-width: 720px) {
+  .figrow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+  .chart-panel { flex: 1 1 auto !important; }
+  .chart-svg { max-width: 440px; margin: 0 auto; }
+  .chart-legend {
+    flex-flow: row wrap;
+    justify-content: center;
+    align-self: stretch;
+    gap: 6px 16px;
+    padding-left: 0;
+  }
+  .leg-note { flex-basis: 100%; text-align: center; margin-top: 0; }
+}
+
+/* ---------------- Footer ---------------- */
+.footer {
+  padding: 32px 0 48px;
+  text-align: center;
+}
+
+.footer p {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}

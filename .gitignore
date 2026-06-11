@@ -1,0 +1,14 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*~
+*.swp
+.idea/
+.vscode/
+
+# Supplementary materials package (built locally from assets/videos, not part of the site)
+/supplementary_materials/
+/supplementary_materials.zip
+
+# Videos are served from the CDN (cdn-pivot.linshey.com); keep large media out of the repo
+assets/videos/*.mp4
