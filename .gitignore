@@ -12,3 +12,6 @@ Thumbs.db
 
 # Videos are served from the CDN (cdn-pivot.linshey.com); keep large media out of the repo
 assets/videos/*.mp4
+
+# Claude Code session files
+.claude/

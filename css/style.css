@@ -145,7 +145,8 @@ body {
   transition: color 0.15s ease;
 }
 
-.nav-links a:hover { color: var(--dark-ink); }
+.nav-links a:hover,
+.nav-links a.is-active { color: var(--dark-ink); }
 
 .nav-i {
   font-size: 10px;
@@ -203,6 +204,7 @@ body {
   color: var(--dark-muted);
   max-width: 46ch;
   margin: 28px auto 36px;
+  text-wrap: balance;
 }
 
 .subtitle .acro {
@@ -210,12 +212,31 @@ body {
   font-weight: 600;
 }
 
-/* Instrument nameplate around the author block */
+/* Instrument nameplate around the author block, with
+   registration ticks in the corners */
 .plate {
+  position: relative;
   display: inline-block;
   border: 1px solid var(--dark-line);
   padding: 18px 44px;
   margin-top: 12px;
+}
+
+.plate::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--accent-bright), var(--accent-bright)) left top / 9px 1px,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) left top / 1px 9px,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) right top / 9px 1px,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) right top / 1px 9px,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) left bottom / 9px 1px,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) left bottom / 1px 9px,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) right bottom / 9px 1px,
+    linear-gradient(var(--accent-bright), var(--accent-bright)) right bottom / 1px 9px;
+  background-repeat: no-repeat;
 }
 
 .authors {
@@ -299,6 +320,7 @@ body {
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin: 16px 0 0;
+  text-wrap: balance;
 }
 
 .prose {
@@ -409,7 +431,10 @@ body {
 .cap-label {
   color: var(--ink);
   padding-top: 2px;
+  transition: color 0.2s ease;
 }
+
+.media:hover .cap-label { color: var(--accent); }
 
 .cap-text strong {
   color: var(--ink);
@@ -719,6 +744,18 @@ body {
   .footer { padding: 64px 0 56px; }
   .footer-brand { font-size: 28px; }
   .footer-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
+}
+
+/* ---------------- Scroll reveals (class added by js/nav.js) ---------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 0.7, 0.25, 1);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
 }
 
 /* ---------------- Reduced motion ---------------- */
