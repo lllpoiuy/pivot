@@ -10,6 +10,28 @@
   if (!("IntersectionObserver" in window)) return;
 
   function init() {
+    // --- Reading-progress bar under the nav --------------------------------
+    var nav = document.querySelector(".nav");
+    if (nav) {
+      var bar = document.createElement("div");
+      bar.className = "nav-progress";
+      nav.appendChild(bar);
+      var ticking = false;
+      var onScroll = function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var doc = document.documentElement;
+          var max = doc.scrollHeight - window.innerHeight;
+          var p = max > 0 ? Math.min(1, doc.scrollTop / max) : 0;
+          bar.style.transform = "scaleX(" + p + ")";
+          ticking = false;
+        });
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
     // --- Scroll-spy -------------------------------------------------------
     var links = document.querySelectorAll('.nav-links a[href^="#"]');
     var map = {};

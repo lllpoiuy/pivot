@@ -154,14 +154,28 @@ body {
   opacity: 0.75;
 }
 
+/* Reading-progress hairline (element injected by js/nav.js) */
+.nav-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-bright);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+
 /* ---------------- Hero (dark) ---------------- */
 .hero {
   background-color: var(--dark-0);
   background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.05'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
     radial-gradient(ellipse 58% 40% at 50% 20%, rgba(255, 107, 53, 0.05), transparent 70%),
     linear-gradient(var(--dark-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--dark-grid) 1px, transparent 1px);
-  background-size: auto, 96px 96px, 96px 96px;
+  background-size: 160px 160px, auto, 96px 96px, 96px 96px;
   /* Bottom padding reserves the dark band the promo video is pulled up into */
   padding: clamp(72px, 11vh, 128px) 0 calc(var(--overlap) + clamp(48px, 6vw, 80px));
   text-align: center;
@@ -450,6 +464,30 @@ body {
   line-height: 0;
 }
 
+/* Centered play affordance while paused */
+.player::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9.5 6.8v10.4l8.6-5.2z' fill='white'/></svg>") center / 26px no-repeat,
+    rgba(11, 13, 16, 0.48);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.player.is-paused::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
 .player video {
   display: block;
   width: 100%;
@@ -669,9 +707,10 @@ body {
 .footer {
   background-color: var(--dark-0);
   background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.05'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
     linear-gradient(var(--dark-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--dark-grid) 1px, transparent 1px);
-  background-size: 88px 88px;
+  background-size: 160px 160px, 96px 96px, 96px 96px;
   border-top: 1px solid var(--dark-line);
   padding: 88px 0 72px;
 }
@@ -693,6 +732,39 @@ body {
   letter-spacing: -0.03em;
   color: var(--dark-ink);
   margin: 0;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+.footer-links a {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dark-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-links a:hover { color: var(--dark-ink); }
+
+.footer-links a span {
+  color: var(--accent-bright);
+  opacity: 0.75;
+  margin-right: 7px;
+  font-size: 10px;
 }
 
 .footer-note {
@@ -743,7 +815,9 @@ body {
 @media (max-width: 480px) {
   .footer { padding: 64px 0 56px; }
   .footer-brand { font-size: 28px; }
-  .footer-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 22px; }
+  .plate { padding: 14px 28px; }
+  .player::before { width: 48px; height: 48px; background-size: 20px, auto; }
 }
 
 /* ---------------- Scroll reveals (class added by js/nav.js) ---------------- */
