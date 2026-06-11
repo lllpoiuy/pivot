@@ -33,6 +33,9 @@
   --w-prose: 680px;
   --w-content: 1000px;
   --w-media: 1200px;
+
+  /* How far the promo video's top edge reaches up into the hero */
+  --seam-overlap: clamp(80px, 16vh, 170px);
 }
 
 * { box-sizing: border-box; }
@@ -168,47 +171,28 @@ body {
 }
 
 /* ---------------- Hero (engineering drafting sheet) ----------------
-   White drafting paper: a major/minor grid, ink type on the left,
-   a pencil line-drawing of the rig on the right. The sketch is a
-   white-background image; multiply blending seats its linework
-   directly on the gridded sheet. */
+   A compact title block on dotted drafting paper; the promo video
+   is the hero piece, embedded across the hero's bottom seam so it
+   is almost fully visible at first glance. */
 .hero {
   background-color: var(--paper);
   /* fine dot lattice — quieter than ruled gridlines */
   background-image: radial-gradient(circle, rgba(21, 23, 26, 0.11) 1px, transparent 1.4px);
   background-size: 26px 26px;
   border-bottom: 1px solid var(--line);
-  padding: clamp(36px, 5.5vh, 60px) 0 clamp(36px, 4.5vw, 56px);
+  padding: clamp(28px, 4vh, 44px) 0 var(--seam-overlap);
+  text-align: center;
 }
 
-.hero-grid {
+.hero-inner {
   max-width: var(--w-media);
   margin: 0 auto;
-  padding: 0 24px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
-}
-
-.hero-eyebrow {
-  color: var(--muted);
-  margin: 0 0 24px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hero-eyebrow::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  background: var(--accent);
+  padding: 0 24px 18px;
 }
 
 .title {
   font-family: var(--display);
-  font-size: clamp(72px, 10vw, 132px);
+  font-size: clamp(56px, 7.5vw, 96px);
   font-weight: 800;
   letter-spacing: 0.015em;
   line-height: 0.9;
@@ -217,13 +201,12 @@ body {
 }
 
 .subtitle {
-  font-size: clamp(18px, 2.1vw, 22px);
+  font-size: clamp(17px, 1.6vw, 20px);
   font-weight: 400;
   line-height: 1.45;
   color: var(--muted);
-  max-width: 44ch;
-  margin: 18px 0 28px;
-  text-wrap: balance;
+  max-width: 76ch;
+  margin: 14px auto 22px;
 }
 
 .subtitle .acro {
@@ -238,7 +221,7 @@ body {
   display: inline-block;
   border: 1px solid var(--line);
   background: var(--paper);
-  padding: 14px 36px;
+  padding: 10px 30px;
 }
 
 .plate::before {
@@ -265,96 +248,32 @@ body {
 
 .venue {
   color: var(--muted);
-  margin: 8px 0 0;
-  font-size: 11px;
-}
-
-/* Irregular stack of pencil drawings, layered like sheets on a
-   drafting table. Blend on each img (the animated element itself,
-   so the entrance opacity can't isolate the blend). */
-.hero-collage {
-  position: relative;
-  aspect-ratio: 10 / 9;
-  min-width: 0;
-}
-
-.hero-collage .hc {
-  position: absolute;
-  height: auto;
-  mix-blend-mode: multiply;
-}
-
-.hc-1 {
-  width: 62%;
-  top: 0;
-  left: 2%;
-  transform: rotate(-2.5deg);
-}
-
-.hc-2 {
-  width: 44%;
-  right: 0;
-  top: 7%;
-  transform: rotate(3.5deg);
-}
-
-.hc-3 {
-  width: 48%;
-  left: 26%;
-  top: 34%;
-  transform: rotate(1.5deg);
-}
-
-.hc-4 {
-  width: 44%;
-  left: 0;
-  bottom: 3%;
-  transform: rotate(-4.5deg);
-}
-
-.hc-5 {
-  width: 40%;
-  right: 2%;
-  bottom: 0;
-  transform: rotate(5deg);
+  margin: 6px 0 0;
+  font-size: 10.5px;
 }
 
 /* Staggered hero reveal */
-.hero-text > *,
-.hero-collage .hc,
+.hero-inner > *,
 .seam .hero-media {
   opacity: 0;
+  transform: translateY(14px);
   animation: rise 0.7s cubic-bezier(0.22, 0.7, 0.25, 1) forwards;
 }
 
-.hero-text > * { transform: translateY(14px); }
-
-/* keep the collage rotations: fade only, no transform reset */
-.hero-collage .hc { animation-name: fadein; }
-
-@keyframes fadein {
-  to { opacity: 1; }
-}
-
-.hero-eyebrow { animation-delay: 0.05s; }
-.title { animation-delay: 0.12s; }
-.subtitle { animation-delay: 0.22s; }
-.plate { animation-delay: 0.3s; }
-.hc-1 { animation-delay: 0.2s; }
-.hc-2 { animation-delay: 0.3s; }
-.hc-3 { animation-delay: 0.4s; }
-.hc-4 { animation-delay: 0.5s; }
-.hc-5 { animation-delay: 0.6s; }
-.seam .hero-media { animation-delay: 0.4s; }
+.title { animation-delay: 0.05s; }
+.subtitle { animation-delay: 0.15s; }
+.plate { animation-delay: 0.25s; }
+.seam .hero-media { animation-delay: 0.35s; }
 
 @keyframes rise {
   to { opacity: 1; transform: none; }
 }
 
-/* ---------------- Promo band ---------------- */
+/* ---------------- Promo band (straddles the hero seam) ---------------- */
 .seam {
   position: relative;
-  margin-top: clamp(48px, 6vw, 80px);
+  max-width: 1088px;
+  margin-top: calc(-1 * var(--seam-overlap));
 }
 
 .hero-media video {
@@ -367,7 +286,7 @@ body {
   border-top: 0;
   text-align: center;
   max-width: 72ch;
-  margin: 0 auto 24px;
+  margin: 22px auto 0;
   padding-top: 0;
 }
 
@@ -932,16 +851,6 @@ body {
     gap: 4px;
   }
 
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .hero-collage {
-    max-width: 480px;
-    margin: 20px auto 0;
-    width: 100%;
-  }
 }
 
 @media (max-width: 720px) {
@@ -1000,16 +909,11 @@ body {
 
   .sheet-bg-layer { transition: none; }
 
-  .hero-text > *,
+  .hero-inner > *,
   .seam .hero-media {
     animation: none;
     opacity: 1;
     transform: none;
-  }
-
-  .hero-collage .hc {
-    animation: none;
-    opacity: 1;
   }
 
   .chart-svg .bar { transform: none; transition: none; }
