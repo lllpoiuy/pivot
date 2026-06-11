@@ -10,8 +10,6 @@
   var ICON = {
     play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
     pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>',
-    volume: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>',
-    muted: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm16.5 3 2.7-2.7-1.4-1.4L18 10.6 15.3 7.9l-1.4 1.4L16.6 12l-2.7 2.7 1.4 1.4L18 13.4l2.7 2.7 1.4-1.4z"/></svg>',
     enterFs: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h3V5H5v5h2V7zm10 0v3h2V5h-5v2h3zM7 17v-3H5v5h5v-2H7zm12-3h-2v3h-3v2h5v-5z"/></svg>',
     exitFs: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9V6H7v1H5v2h4zm6 0h4V7h-2V6h-2v3zM9 15H5v2h2v1h2v-3zm6 0v3h2v-1h2v-2h-4z"/></svg>'
   };
@@ -33,6 +31,21 @@
     // Let our bar own the controls; drop native ones if present.
     video.removeAttribute("controls");
 
+    // Videos are presentation-only: always muted, no audio UI.
+    video.muted = true;
+
+    // The #t=… media fragment only picks the poster frame; playback
+    // should still start from the beginning. On the first play, rewind
+    // to 0 unless the user already scrubbed somewhere else.
+    var fragment = ((video.currentSrc || video.src || "").match(/#t=([\d.]+)/) || [])[1];
+    var posterTime = fragment ? parseFloat(fragment) : null;
+    video.addEventListener("play", function rewindOnce() {
+      video.removeEventListener("play", rewindOnce);
+      if (posterTime !== null && Math.abs(video.currentTime - posterTime) < 0.3) {
+        video.currentTime = 0;
+      }
+    });
+
     // Wrap the video so we can overlay controls only on the frame.
     var player = document.createElement("div");
     player.className = "player";
@@ -48,13 +61,11 @@
           '<div class="vc-thumb"></div>' +
         '</div>' +
         '<span class="vc-time">0:00</span>' +
-        '<button class="vc-btn vc-mute" type="button" aria-label="Mute/Unmute"></button>' +
         '<button class="vc-btn vc-fs" type="button" aria-label="Fullscreen"></button>' +
       '</div>'
     );
 
     var playBtn = player.querySelector(".vc-play");
-    var muteBtn = player.querySelector(".vc-mute");
     var fsBtn = player.querySelector(".vc-fs");
     var track = player.querySelector(".vc-track");
     var played = player.querySelector(".vc-played");
@@ -65,9 +76,6 @@
     function syncPlay() {
       playBtn.innerHTML = video.paused ? ICON.play : ICON.pause;
       player.classList.toggle("is-paused", video.paused);
-    }
-    function syncMute() {
-      muteBtn.innerHTML = video.muted || video.volume === 0 ? ICON.muted : ICON.volume;
     }
     function syncFs() {
       var on = document.fullscreenElement === player;
@@ -107,9 +115,6 @@
     video.addEventListener("timeupdate", syncProgress);
     video.addEventListener("loadedmetadata", syncProgress);
     video.addEventListener("progress", syncBuffered);
-    video.addEventListener("volumechange", syncMute);
-
-    muteBtn.addEventListener("click", function () { video.muted = !video.muted; });
 
     fsBtn.addEventListener("click", function () {
       if (document.fullscreenElement === player) {
@@ -157,7 +162,6 @@
     });
 
     syncPlay();
-    syncMute();
     syncFs();
     syncProgress();
     syncBuffered();
