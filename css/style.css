@@ -274,7 +274,7 @@ body {
    so the entrance opacity can't isolate the blend). */
 .hero-collage {
   position: relative;
-  aspect-ratio: 10 / 8;
+  aspect-ratio: 10 / 9;
   min-width: 0;
 }
 
@@ -285,24 +285,38 @@ body {
 }
 
 .hc-1 {
-  width: 74%;
+  width: 62%;
   top: 0;
-  left: 0;
+  left: 2%;
   transform: rotate(-2.5deg);
 }
 
 .hc-2 {
-  width: 48%;
+  width: 44%;
   right: 0;
-  top: 42%;
+  top: 7%;
   transform: rotate(3.5deg);
 }
 
 .hc-3 {
-  width: 42%;
-  left: 5%;
-  bottom: 2%;
-  transform: rotate(-5deg);
+  width: 48%;
+  left: 26%;
+  top: 34%;
+  transform: rotate(1.5deg);
+}
+
+.hc-4 {
+  width: 44%;
+  left: 0;
+  bottom: 3%;
+  transform: rotate(-4.5deg);
+}
+
+.hc-5 {
+  width: 40%;
+  right: 2%;
+  bottom: 0;
+  transform: rotate(5deg);
 }
 
 /* Staggered hero reveal */
@@ -327,8 +341,10 @@ body {
 .subtitle { animation-delay: 0.22s; }
 .plate { animation-delay: 0.3s; }
 .hc-1 { animation-delay: 0.2s; }
-.hc-2 { animation-delay: 0.32s; }
-.hc-3 { animation-delay: 0.44s; }
+.hc-2 { animation-delay: 0.3s; }
+.hc-3 { animation-delay: 0.4s; }
+.hc-4 { animation-delay: 0.5s; }
+.hc-5 { animation-delay: 0.6s; }
 .seam .hero-media { animation-delay: 0.4s; }
 
 @keyframes rise {
@@ -361,47 +377,53 @@ body {
   padding: clamp(72px, 9vw, 120px) 0 0;
 }
 
-/* A large, very faint pencil drawing of each task lies under its
-   section like the ghost of a drafting sheet — centered, symmetric,
-   never louder than the text. Wide screens only. */
-@media (min-width: 1100px) {
-  .section::after {
-    position: absolute;
-    top: clamp(180px, 18vw, 300px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(1060px, 88vw);
-    aspect-ratio: 10 / 7;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center top;
-    mix-blend-mode: multiply;
-    opacity: 0.09;
-    pointer-events: none;
-    -webkit-mask-image: radial-gradient(ellipse 58% 58% at 50% 46%, #000 35%, transparent 92%);
-    mask-image: radial-gradient(ellipse 58% 58% at 50% 46%, #000 35%, transparent 92%);
-  }
+/* The drafting-sheet ghost layer: fixed to the viewport behind ALL
+   content (z-index -1 — opaque surfaces like videos, chart panels,
+   hero and footer always cover it). Six sketches tile and interleave
+   across the full width; background-blend multiplies their white
+   sheets away against each other, mix-blend seats the linework on
+   the paper. It does not scroll with the page — instead it drifts
+   slowly along a diagonal. */
+body::before {
+  content: "";
+  position: fixed;
+  top: -22%;
+  left: -22%;
+  width: 144%;
+  height: 144%;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #fff;
+  background-image:
+    url("../assets/images/sketch-gripper.webp"),
+    url("../assets/images/sketch-paperbox.webp"),
+    url("../assets/images/sketch-laundry.webp"),
+    url("../assets/images/sketch-ziptie.webp"),
+    url("../assets/images/sketch-sachet.webp"),
+    url("../assets/images/sketch-rig.webp");
+  background-repeat: repeat;
+  background-size:
+    min(640px, 46vw) auto,
+    min(560px, 42vw) auto,
+    min(600px, 44vw) auto,
+    min(520px, 40vw) auto,
+    min(460px, 36vw) auto,
+    min(420px, 34vw) auto;
+  background-position:
+    0 0,
+    37vw 22vh,
+    72vw 54vh,
+    14vw 66vh,
+    55vw 86vh,
+    86vw 8vh;
+  background-blend-mode: multiply;
+  mix-blend-mode: multiply;
+  opacity: 0.085;
+  animation: sheet-drift 150s ease-in-out infinite alternate;
+}
 
-  #tasks::after {
-    content: "";
-    background-image: url("../assets/images/sketch-paperbox.webp");
-  }
-
-  #generalization::after {
-    content: "";
-    background-image: url("../assets/images/sketch-ziptie.webp");
-  }
-
-  #robustness::after {
-    content: "";
-    background-image: url("../assets/images/sketch-laundry.webp");
-  }
-
-  #results::after {
-    content: "";
-    background-image: url("../assets/images/sketch-rig.webp");
-    opacity: 0.1;
-  }
+@keyframes sheet-drift {
+  to { transform: translate(5%, -4%) rotate(0.4deg); }
 }
 
 .section:last-of-type {
@@ -982,6 +1004,8 @@ body {
 /* ---------------- Reduced motion ---------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+
+  body::before { animation: none; }
 
   .hero-text > *,
   .seam .hero-media {
