@@ -175,11 +175,13 @@ body {
    is the hero piece, embedded across the hero's bottom seam so it
    is almost fully visible at first glance. */
 .hero {
+  max-width: min(1200px, calc(100% - 40px));
+  margin: 22px auto 0;
   background-color: var(--paper);
   /* fine dot lattice — quieter than ruled gridlines */
   background-image: radial-gradient(circle, rgba(21, 23, 26, 0.11) 1px, transparent 1.4px);
   background-size: 26px 26px;
-  border-bottom: 1px solid var(--line);
+  border: 1px dashed var(--accent);
   padding: clamp(28px, 4vh, 44px) 0 var(--seam-overlap);
   text-align: center;
 }
@@ -192,21 +194,21 @@ body {
 
 .title {
   font-family: var(--display);
-  font-size: clamp(56px, 7.5vw, 96px);
+  font-size: clamp(48px, 5.8vw, 76px);
   font-weight: 800;
-  letter-spacing: 0.015em;
+  letter-spacing: 0.02em;
   line-height: 0.9;
   color: var(--ink);
   margin: 0;
 }
 
 .subtitle {
-  font-size: clamp(17px, 1.6vw, 20px);
+  font-size: clamp(20px, 2vw, 26px);
   font-weight: 400;
-  line-height: 1.45;
-  color: var(--muted);
+  line-height: 1.4;
+  color: var(--ink);
   max-width: 76ch;
-  margin: 14px auto 22px;
+  margin: 14px auto 24px;
 }
 
 .subtitle .acro {
@@ -244,12 +246,23 @@ body {
 .authors {
   color: var(--ink);
   margin: 0;
+  text-transform: none;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+
+.authors sup,
+.venue sup {
+  font-size: 9px;
+  color: var(--accent);
 }
 
 .venue {
   color: var(--muted);
-  margin: 6px 0 0;
-  font-size: 10.5px;
+  margin: 7px 0 0;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0.03em;
 }
 
 /* Staggered hero reveal */
@@ -294,6 +307,15 @@ body {
 .section {
   position: relative;
   padding: clamp(72px, 9vw, 120px) 0 0;
+}
+
+/* Body text sits on its own dashed-bordered sheet of white so it
+   never tangles with the drifting sketch behind. Video captions
+   stay outside on purpose. */
+.section .wrap-content {
+  background: rgba(255, 255, 255, 0.93);
+  border: 1px dashed #c9c4ba;
+  padding: 26px 36px 32px;
 }
 
 /* The drafting-sheet ghost: one sketch at a time, fixed to the
@@ -343,8 +365,7 @@ body {
 }
 
 .sec-head {
-  border-top: 1px solid var(--line);
-  padding-top: 18px;
+  padding-top: 0;
 }
 
 .sec-eyebrow {
@@ -863,6 +884,7 @@ body {
 
   .wrap-media > :not(:first-child) { margin-top: 40px; }
   .grid { gap: 40px 32px; }
+  .section .wrap-content { padding: 18px 20px 24px; }
   .media.chart { padding: 16px 16px 14px; }
 
   /* Stack chart panels vertically on narrow screens */
