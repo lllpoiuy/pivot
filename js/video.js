@@ -39,11 +39,16 @@
     // to 0 unless the user already scrubbed somewhere else.
     var fragment = ((video.currentSrc || video.src || "").match(/#t=([\d.]+)/) || [])[1];
     var posterTime = fragment ? parseFloat(fragment) : null;
+    // While the poster frame is showing, the progress bar and time
+    // readout pretend to be at 0:00 — the frame is a cover, not a
+    // playback position. Cleared on first play or user seek.
+    var pristine = posterTime !== null;
     video.addEventListener("play", function rewindOnce() {
       video.removeEventListener("play", rewindOnce);
-      if (posterTime !== null && Math.abs(video.currentTime - posterTime) < 0.3) {
+      if (pristine && Math.abs(video.currentTime - posterTime) < 0.3) {
         video.currentTime = 0;
       }
+      pristine = false;
     });
 
     // Wrap the video so we can overlay controls only on the frame.
@@ -83,16 +88,19 @@
     }
     function syncProgress() {
       var d = video.duration;
-      var pct = d ? (video.currentTime / d) * 100 : 0;
+      var t = pristine ? 0 : video.currentTime;
+      var pct = d ? (t / d) * 100 : 0;
       played.style.width = pct + "%";
       thumb.style.left = pct + "%";
       track.setAttribute("aria-valuenow", Math.round(pct));
       var dur = isFinite(d) ? " / " + fmt(d) : "";
-      timeEl.textContent = fmt(video.currentTime) + dur;
+      timeEl.textContent = fmt(t) + dur;
     }
     function syncBuffered() {
       try {
-        if (video.buffered.length && video.duration) {
+        if (pristine) {
+          buffered.style.width = "0%";
+        } else if (video.buffered.length && video.duration) {
           var end = video.buffered.end(video.buffered.length - 1);
           buffered.style.width = (end / video.duration) * 100 + "%";
         }
@@ -132,6 +140,7 @@
       var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
       var ratio = Math.min(1, Math.max(0, x / rect.width));
       if (video.duration) {
+        pristine = false;
         video.currentTime = ratio * video.duration;
         syncProgress();
       }
@@ -156,8 +165,8 @@
     // Keyboard seeking on the focused track.
     track.addEventListener("keydown", function (e) {
       if (!video.duration) return;
-      if (e.key === "ArrowLeft") { video.currentTime = Math.max(0, video.currentTime - 5); e.preventDefault(); }
-      else if (e.key === "ArrowRight") { video.currentTime = Math.min(video.duration, video.currentTime + 5); e.preventDefault(); }
+      if (e.key === "ArrowLeft") { pristine = false; video.currentTime = Math.max(0, video.currentTime - 5); e.preventDefault(); }
+      else if (e.key === "ArrowRight") { pristine = false; video.currentTime = Math.min(video.duration, video.currentTime + 5); e.preventDefault(); }
       else if (e.key === " " || e.key === "Enter") { toggle(); e.preventDefault(); }
     });
 
