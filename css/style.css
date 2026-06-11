@@ -377,53 +377,46 @@ body {
   padding: clamp(72px, 9vw, 120px) 0 0;
 }
 
-/* The drafting-sheet ghost layer: fixed to the viewport behind ALL
-   content (z-index -1 — opaque surfaces like videos, chart panels,
-   hero and footer always cover it). Six sketches tile and interleave
-   across the full width; background-blend multiplies their white
-   sheets away against each other, mix-blend seats the linework on
-   the paper. It does not scroll with the page — instead it drifts
-   slowly along a diagonal. */
-body::before {
-  content: "";
+/* The drafting-sheet ghost: one sketch at a time, fixed to the
+   viewport behind ALL content (z-index -1 — videos, chart panels,
+   hero and footer always cover it) and enlarged to fill the bounds.
+   Every few seconds js/nav.js slides the next sheet in along a
+   diagonal while the current one slides out. */
+.sheet-bg {
   position: fixed;
-  top: -22%;
-  left: -22%;
-  width: 144%;
-  height: 144%;
+  inset: 0;
   z-index: -1;
+  overflow: hidden;
   pointer-events: none;
-  background-color: #fff;
-  background-image:
-    url("../assets/images/sketch-gripper.webp"),
-    url("../assets/images/sketch-paperbox.webp"),
-    url("../assets/images/sketch-laundry.webp"),
-    url("../assets/images/sketch-ziptie.webp"),
-    url("../assets/images/sketch-sachet.webp"),
-    url("../assets/images/sketch-rig.webp");
-  background-repeat: repeat;
-  background-size:
-    min(640px, 46vw) auto,
-    min(560px, 42vw) auto,
-    min(600px, 44vw) auto,
-    min(520px, 40vw) auto,
-    min(460px, 36vw) auto,
-    min(420px, 34vw) auto;
-  background-position:
-    0 0,
-    37vw 22vh,
-    72vw 54vh,
-    14vw 66vh,
-    55vw 86vh,
-    86vw 8vh;
-  background-blend-mode: multiply;
-  mix-blend-mode: multiply;
-  opacity: 0.085;
-  animation: sheet-drift 150s ease-in-out infinite alternate;
 }
 
-@keyframes sheet-drift {
-  to { transform: translate(5%, -4%) rotate(0.4deg); }
+.sheet-bg-layer {
+  position: absolute;
+  inset: -7%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transform: translate(5%, 4%);
+  transition: opacity 2.4s ease, transform 2.4s ease;
+  will-change: transform, opacity;
+}
+
+.sheet-bg-layer.is-entering {
+  transition: none;
+  opacity: 0;
+  transform: translate(5%, 4%);
+}
+
+.sheet-bg-layer.is-active {
+  opacity: 0.095;
+  transform: translate(0, 0);
+}
+
+.sheet-bg-layer.is-leaving {
+  opacity: 0;
+  transform: translate(-5%, -4%);
 }
 
 .section:last-of-type {
@@ -1005,7 +998,7 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
-  body::before { animation: none; }
+  .sheet-bg-layer { transition: none; }
 
   .hero-text > *,
   .seam .hero-media {

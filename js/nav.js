@@ -9,7 +9,52 @@
 
   if (!("IntersectionObserver" in window)) return;
 
+  var SHEETS = [
+    "assets/images/sketch-gripper.webp",
+    "assets/images/sketch-paperbox.webp",
+    "assets/images/sketch-laundry.webp",
+    "assets/images/sketch-ziptie.webp",
+    "assets/images/sketch-sachet.webp",
+    "assets/images/sketch-rig.webp"
+  ];
+
   function init() {
+    // --- Drafting-sheet background: one sketch at a time, sliding
+    //     diagonally to the next every few seconds ---------------------------
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var bg = document.createElement("div");
+    bg.className = "sheet-bg";
+    bg.setAttribute("aria-hidden", "true");
+    var layers = [document.createElement("div"), document.createElement("div")];
+    layers[0].className = "sheet-bg-layer";
+    layers[1].className = "sheet-bg-layer";
+    bg.appendChild(layers[0]);
+    bg.appendChild(layers[1]);
+    document.body.insertBefore(bg, document.body.firstChild);
+
+    var idx = 0;
+    var front = 0;
+    layers[0].style.backgroundImage = "url(" + SHEETS[0] + ")";
+    layers[0].classList.add("is-active");
+
+    if (!reduced) {
+      SHEETS.forEach(function (src) { new Image().src = src; }); // warm the cache
+      setInterval(function () {
+        idx = (idx + 1) % SHEETS.length;
+        var inc = layers[1 - front];
+        var out = layers[front];
+        inc.style.backgroundImage = "url(" + SHEETS[idx] + ")";
+        inc.classList.remove("is-leaving");
+        inc.classList.add("is-entering");
+        void inc.offsetWidth; /* flush, so the entering position applies before transitioning */
+        inc.classList.remove("is-entering");
+        inc.classList.add("is-active");
+        out.classList.remove("is-active");
+        out.classList.add("is-leaving");
+        front = 1 - front;
+      }, 9000);
+    }
+
     // --- Reading-progress bar under the nav --------------------------------
     var nav = document.querySelector(".nav");
     if (nav) {
